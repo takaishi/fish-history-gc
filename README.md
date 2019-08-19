@@ -1,2 +1,2 @@
-# fish_history_gc
+# fish-history-gc
 
