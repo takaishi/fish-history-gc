@@ -1,5 +1,7 @@
 # fish-history-gc
 
+Remove duplicate entries from fish history file.
+
 ## Example fish config
 
 ```
