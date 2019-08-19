@@ -20,7 +20,7 @@ type Entry struct {
 
 type Entries []*Entry
 
-func Run(path string, inPlace bool) error {
+func Run(path string, overWrite bool) error {
 
 	path, err := getHistoryPath(path)
 	if err != nil {
@@ -51,7 +51,7 @@ func Run(path string, inPlace bool) error {
 		return newEntries[i].When < newEntries[j].When
 	})
 
-	if inPlace {
+	if overWrite {
 		file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 		if err != nil {
 			return err
@@ -111,13 +111,12 @@ func defaultHistoryPath() (string, error) {
 }
 
 func main() {
-	var inPlace bool
-	flag.BoolVar(&inPlace, "in-place", false, "aaa")
-	flag.BoolVar(&inPlace, "s", false, "aaa")
+	var overWrite bool
+	flag.BoolVar(&overWrite, "overwrite", false, "aaa")
 	flag.Parse()
 
 	path := flag.Arg(0)
-	err := Run(path, inPlace)
+	err := Run(path, overWrite)
 	if err != nil {
 		log.Fatal(err)
 	}
