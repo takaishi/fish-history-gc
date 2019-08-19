@@ -110,9 +110,16 @@ func defaultHistoryPath() (string, error) {
 	return filepath.Join(user.HomeDir, ".local", "share", "fish", "fish_history"), nil
 }
 
+func usage() {
+	fmt.Printf("Usage: %s [OPTIONS] [/fish/history/path]\n", os.Args[0])
+	flag.PrintDefaults()
+}
+
 func main() {
 	var overWrite bool
-	flag.BoolVar(&overWrite, "overwrite", false, "aaa")
+
+	flag.Usage = usage
+	flag.BoolVar(&overWrite, "overwrite", false, "Overwrite entries")
 	flag.Parse()
 
 	path := flag.Arg(0)
