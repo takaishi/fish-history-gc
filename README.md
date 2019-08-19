@@ -17,3 +17,10 @@ Usage: fish-history-gc [OPTIONS] [/fish/history/path]
   -overwrite
         Overwrite entries
 ```
+
+## Install
+
+```
+$ brew tap takaishi/homebrew-fomulas
+$ brew install fish-history-gc
+```
