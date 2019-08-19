@@ -18,7 +18,7 @@ type Entry struct {
 	When int    `yaml:"when"`
 }
 
-type Entries []*Entry
+type Entries []Entry
 
 func Run(path string, overWrite bool) error {
 
@@ -31,21 +31,7 @@ func Run(path string, overWrite bool) error {
 	if err != nil {
 		return err
 	}
-	newEntries := Entries{}
-
-	for _, entry := range oldEntries {
-
-		exists := false
-		for _, newEntry := range newEntries {
-			if entry.Cmd == newEntry.Cmd {
-				newEntry.When = entry.When
-				exists = true
-			}
-		}
-		if !exists {
-			newEntries = append(newEntries, entry)
-		}
-	}
+	newEntries := removeDupEntries(oldEntries)
 
 	sort.Slice(newEntries, func(i, j int) bool {
 		return newEntries[i].When < newEntries[j].When
@@ -70,6 +56,25 @@ func Run(path string, overWrite bool) error {
 	}
 
 	return nil
+}
+
+func removeDupEntries(entries Entries) Entries {
+	newEntries := Entries{}
+
+	for _, entry := range entries {
+		exists := false
+		for _, newEntry := range newEntries {
+			if entry.Cmd == newEntry.Cmd {
+				newEntry.When = entry.When
+				exists = true
+			}
+		}
+		if !exists {
+			newEntries = append(newEntries, entry)
+		}
+	}
+
+	return newEntries
 }
 
 func readEntries(path string) (Entries, error) {
