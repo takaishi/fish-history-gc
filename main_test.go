@@ -11,7 +11,10 @@ func Test_readEntries(t *testing.T) {
 	input := `- cmd: foo
   when: 1565245208
 - cmd: bar
-  when: 1565245270`
+  when: 1565245270
+- cmd: echo "hello: hoge"
+  when: 1566649936
+`
 
 	expected := Entries{
 		{
@@ -21,6 +24,10 @@ func Test_readEntries(t *testing.T) {
 		{
 			Cmd:  "bar",
 			When: 1565245270,
+		},
+		{
+			Cmd:  "echo \"hello: hoge\"",
+			When: 1566649936,
 		},
 	}
 
