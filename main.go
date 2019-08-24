@@ -1,16 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
 	"path/filepath"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 type Entry struct {
@@ -27,7 +28,12 @@ func Run(path string, overWrite bool) error {
 		return err
 	}
 
-	oldEntries, err := readEntries(path)
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	oldEntries, err := readEntries(file)
 	if err != nil {
 		return err
 	}
@@ -77,14 +83,22 @@ func removeDupEntries(entries Entries) Entries {
 	return newEntries
 }
 
-func readEntries(path string) (Entries, error) {
+func readEntries(r io.Reader) (Entries, error) {
+	scanner := bufio.NewScanner(r)
 	entries := Entries{}
+	for scanner.Scan() {
+		entry := Entry{}
+		line := scanner.Text()
+		if strings.HasPrefix(line, "- cmd: ") {
+			entry.Cmd = line[7:]
+		}
 
-	histBytes, err := ioutil.ReadFile(path)
-
-	err = yaml.Unmarshal(histBytes, &entries)
-	if err != nil {
-		return nil, err
+		scanner.Scan()
+		line = scanner.Text()
+		if strings.HasPrefix(line, "  when: ") {
+			entry.When, _ = strconv.Atoi(line[8:])
+		}
+		entries = append(entries, entry)
 	}
 
 	return entries, nil
