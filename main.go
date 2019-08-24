@@ -27,7 +27,12 @@ func Run(path string, overWrite bool) error {
 		return err
 	}
 
-	oldEntries, err := readEntries(path)
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	oldEntries, err := readEntries(file)
 	if err != nil {
 		return err
 	}
@@ -77,10 +82,9 @@ func removeDupEntries(entries Entries) Entries {
 	return newEntries
 }
 
-func readEntries(path string) (Entries, error) {
+func readEntries(r io.Reader) (Entries, error) {
 	entries := Entries{}
-
-	histBytes, err := ioutil.ReadFile(path)
+	histBytes, err := ioutil.ReadAll(r)
 
 	err = yaml.Unmarshal(histBytes, &entries)
 	if err != nil {
