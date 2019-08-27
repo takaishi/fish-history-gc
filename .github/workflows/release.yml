@@ -1,10 +1,10 @@
 name: Release
 on:
-  push:
+  create:
+    tags:
+      - v*.*.*
     branches:
       - master
-   tags:
-      - v*.*.*
 
 jobs:
   release:

@@ -61,12 +61,12 @@ func Test_removeDupEntries(t *testing.T) {
 
 	expected := Entries{
 		{
-			Cmd:  "foo",
-			When: 1566219614,
-		},
-		{
 			Cmd:  "bar",
 			When: 1566219608,
+		},
+		{
+			Cmd:  "foo",
+			When: 1566219614,
 		},
 	}
 

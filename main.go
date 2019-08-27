@@ -19,7 +19,7 @@ type Entry struct {
 	When int    `yaml:"when"`
 }
 
-type Entries []Entry
+type Entries []*Entry
 
 func Run(path string, overWrite bool) error {
 
@@ -70,7 +70,7 @@ func removeDupEntries(entries Entries) Entries {
 	for _, entry := range entries {
 		exists := false
 		for _, newEntry := range newEntries {
-			if entry.Cmd == newEntry.Cmd {
+			if entry.Cmd == newEntry.Cmd && newEntry.When < entry.When {
 				newEntry.When = entry.When
 				exists = true
 			}
@@ -98,7 +98,7 @@ func readEntries(r io.Reader) (Entries, error) {
 		if strings.HasPrefix(line, "  when: ") {
 			entry.When, _ = strconv.Atoi(line[8:])
 		}
-		entries = append(entries, entry)
+		entries = append(entries, &entry)
 	}
 
 	return entries, nil
