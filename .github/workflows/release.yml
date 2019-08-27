@@ -3,11 +3,11 @@ on:
   create:
     tags:
       - v*.*.*
-  push:
-    branches:
-      - master
-　  tags:
-      - v*.*.*
+push:
+  branches:
+    - master
+ tags:
+    - v*.*.*
 
 jobs:
   release:
