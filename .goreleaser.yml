@@ -11,12 +11,12 @@ builds:
       - CGO_ENABLED=0
     ldflags:
       -X github.com/takaishi/fish_history_gc/config.Version={{.Version}}
-archive:
-  replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    amd64: x86_64
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      amd64: x86_64
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -27,16 +27,17 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
-brew:
-  github:
-    owner: takaishi
-    name: homebrew-fomulas
-  commit_author:
-    name: goreleaserbot
-    email: goreleaser@carlosbecker.com
-  description: "CLI tool to Generate and insert markdown's table of contents"
-  homepage: "https://github.com/takaishi/fish-history-gc"
-  install: |
-    bin.install Dir['fish-history-gc']
-  test: |
-    system "#{bin}/fish-history-gc"
+brews:
+  - name: myproject
+    github:
+      owner: takaishi
+      name: homebrew-fomulas
+    commit_author:
+      name: goreleaserbot
+      email: goreleaser@carlosbecker.com
+    description: "CLI tool to Generate and insert markdown's table of contents"
+    homepage: "https://github.com/takaishi/fish-history-gc"
+    install: |
+      bin.install Dir['fish-history-gc']
+    test: |
+      system "#{bin}/fish-history-gc"
