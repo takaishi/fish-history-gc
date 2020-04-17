@@ -28,7 +28,7 @@ changelog:
       - '^docs:'
       - '^test:'
 brews:
-  - name: myproject
+  - name: fish-history-gc
     github:
       owner: takaishi
       name: homebrew-fomulas
