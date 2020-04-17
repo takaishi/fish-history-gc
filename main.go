@@ -27,6 +27,10 @@ func usage() {
 }
 
 func Run(path string, overWrite bool) error {
+	lock := NewFileLock("/tmp/fish-history-gc.lock")
+	lock.Lock()
+	defer lock.Unlock()
+
 	file, err := openFishHistory(path)
 	if err != nil {
 		return err
