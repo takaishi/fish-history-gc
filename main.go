@@ -16,8 +16,7 @@ func main() {
 	flag.Parse()
 
 	path := flag.Arg(0)
-	err := Run(path, overWrite)
-	if err != nil {
+	if err := Run(path, overWrite); err != nil {
 		log.Fatal(err)
 	}
 }
