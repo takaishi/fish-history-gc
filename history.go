@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"os"
 	"os/user"
 	"path/filepath"
 	"strconv"
@@ -66,12 +67,15 @@ func writeEntries(io io.Writer, entries Entries) error {
 	return nil
 }
 
-func getHistoryPath(pathFlag string) (string, error) {
-	if pathFlag == "" {
-		return defaultHistoryPath()
-	} else {
-		return pathFlag, nil
+func openFishHistory(path string) (_ *os.File, err error) {
+	if path == "" {
+		path, err = defaultHistoryPath()
+		if err != nil {
+			return nil, err
+		}
 	}
+
+	return os.Open(path)
 }
 
 func defaultHistoryPath() (string, error) {

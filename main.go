@@ -28,17 +28,12 @@ func usage() {
 }
 
 func Run(path string, overWrite bool) error {
-
-	path, err := getHistoryPath(path)
-	if err != nil {
-		return err
-	}
-
-	file, err := os.Open(path)
+	file, err := openFishHistory(path)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
+
 	oldEntries, err := readEntries(file)
 	if err != nil {
 		return err
